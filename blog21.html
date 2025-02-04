@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gradient Descent Variants</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        font-family: "Poppins", sans-serif;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: rgba(0, 0, 0, 1);
+        color: rgba(255, 255, 255, 1);
+      }
+
+      nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 20px;
+        background-color: rgba(0, 0, 0, 0.9);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      }
+
+      nav .logo {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+        text-align: left;
+        padding-left: 20px;
+      }
+
+      nav ul li {
+        margin: 0 10px;
+      }
+
+      nav ul li a {
+        color: red;
+        text-decoration: none;
+        font-size: 16px;
+        padding: 5px 10px;
+        transition: color 0.3s;
+      }
+
+      nav ul li a:hover {
+        color: white;
+      }
+
+      .image-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 20px auto;
+        width: 90%;
+        max-width: 1200px;
+      }
+
+      .image-container img {
+        max-width: 50%;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      }
+
+      .container.blog-content {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.9);
+        margin: 20px auto;
+        width: 90%;
+        max-width: 1200px;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.95);
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.8);
+      }
+
+      h1 {
+        background-image: url("acti.png");
+        background-size: cover;
+        background-position: center;
+        color: red;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+        padding: 20px;
+        border-radius: 10px;
+        transition: color 0.3s ease-in-out;
+      }
+
+      h1:hover {
+        color: white;
+      }
+
+      h2, h3 {
+        color: red;
+        transition: color 0.3s ease-in-out;
+      }
+
+      h2:hover, h3:hover {
+        color: white;
+      }
+
+      .blog-content ul {
+        text-align: left;
+        padding-left: 20px;
+      }
+
+      .blog-content ul li {
+        margin-bottom: 10px;
+      }
+
+      .blog-content p {
+        font-size: 18px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+        text-align: justify;
+        color: rgba(255, 255, 255, 0.95);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        background-color: rgba(0, 0, 0, 0.9);
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      }
+
+      th, td {
+        padding: 15px;
+        text-align: center;
+        color: white;
+        font-size: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      th {
+        background-color: rgba(255, 0, 0, 0.7);
+        text-transform: uppercase;
+      }
+
+      tr:nth-child(even) {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      tr:nth-child(odd) {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+
+      tr:hover {
+        background-color: rgba(255, 0, 0, 0.3);
+      }
+
+      @media (max-width: 768px) {
+        nav {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        nav ul {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .image-container img {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <img src="3.png" class="logo" alt="Logo" />
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#portfolio">Portfolio</a></li>
+        <li><a href="index.html#blogs">Blogs</a></li>
+        <li><a href="index.html#footer">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="container blog-content">
+      <h1>Gradient Descent Variants: Stochastic, Mini-batch, and Adam Optimizers</h1>
+      
+      <p>Gradient Descent is a crucial optimization algorithm used for training machine learning models, particularly in deep learning. The goal of Gradient Descent is to minimize the loss function by iteratively updating the model’s parameters (weights). There are different variants of Gradient Descent that vary in terms of the data used and the update process. These variants include **Stochastic Gradient Descent (SGD)**, **Mini-batch Gradient Descent**, and **Adam Optimizer**. Each has its advantages and use cases.</p>
+
+      <h2>1. Stochastic Gradient Descent (SGD)</h2>
+      <p>Stochastic Gradient Descent updates the model’s weights based on a single training sample at a time. While this approach can lead to faster updates and quicker convergence, it can be noisy and may lead to more fluctuations in the loss curve.</p>
+
+      <h3>Formula:</h3>
+      <pre><code>θ = θ - η * ∇L(θ; xi, yi)</code></pre>
+      <p><strong>Where:</strong> 
+        <ul>
+          <li>θ: Parameters (weights) of the model</li>
+          <li>η: Learning rate</li>
+          <li>∇L(θ; xi, yi): Gradient of the loss function with respect to the parameter θ using the sample (xi, yi)</li>
+        </ul>
+      </p>
+
+      <h3>Pros:</h3>
+      <ul>
+        <li>Faster updates compared to batch gradient descent, as it only requires one data point.</li>
+        <li>Can escape local minima due to its noisy nature.</li>
+      </ul>
+
+      <h3>Cons:</h3>
+      <ul>
+        <li>The loss curve can fluctuate, making convergence less stable.</li>
+        <li>May require more iterations to reach the optimal solution.</li>
+      </ul>
+
+      <h3>Usage:</h3>
+      <p>SGD is useful in situations where the dataset is large and we want to update weights frequently, though it’s typically less precise than other variants.</p>
+
+      <hr>
+
+      <h2>2. Mini-batch Gradient Descent</h2>
+      <p>Mini-batch Gradient Descent strikes a balance between Stochastic Gradient Descent and Batch Gradient Descent. Instead of using a single data point or the entire dataset, Mini-batch Gradient Descent updates the model using a small batch of data (typically between 32 and 256 samples).</p>
+
+      <h3>Formula:</h3>
+      <pre><code>θ = θ - η * ∇L(θ; X_batch, Y_batch)</code></pre>
+      <p><strong>Where:</strong> 
+        <ul>
+          <li>X_batch, Y_batch: Mini-batch of data points used for training.</li>
+        </ul>
+      </p>
+
+      <h3>Pros:</h3>
+      <ul>
+        <li>Reduces computation time compared to full batch gradient descent while providing more stable updates than SGD.</li>
+        <li>Less noisy than SGD, providing smoother convergence.</li>
+      </ul>
+      <h3>Cons:</h3>
+      <ul>
+        <li>Choosing the right mini-batch size can be tricky and may impact the convergence rate.</li>
+        <li>It may still exhibit some fluctuations compared to full batch gradient descent.</li>
+      </ul>
+
+      <h3>Usage:</h3>
+      <p>Mini-batch gradient descent is often used in practice, as it balances the advantages of both batch and stochastic gradient descent. It is especially effective for large datasets and is commonly employed in training deep neural networks.</p>
+
+      <hr>
+
+      <h2>3. Adam Optimizer (Adaptive Moment Estimation)</h2>
+      <p>Adam is one of the most popular optimization algorithms due to its adaptive learning rates and robust performance in various deep learning tasks. It computes individual adaptive learning rates for each parameter by considering both the first moment (mean) and the second moment (uncentered variance) of the gradients.</p>
+
+      <h3>Formula:</h3>
+      <pre><code>θ = θ - η * m_t / (sqrt(v_t) + ε)</code></pre>
+      <p><strong>Where:</strong> 
+        <ul>
+          <li>m_t: First moment estimate (mean of the gradients)</li>
+          <li>v_t: Second moment estimate (variance of the gradients)</li>
+          <li>η: Learning rate</li>
+          <li>ε: Small constant to avoid division by zero (usually 1e-8)</li>
+        </ul>
+      </p>
+
+      <h3>Pros:</h3>
+      <ul>
+        <li>Adaptive learning rates for each parameter help in faster convergence and better performance.</li>
+        <li>Works well for problems with sparse gradients (e.g., NLP and image recognition tasks).</li>
+        <li>Requires fewer adjustments to the learning rate hyperparameter compared to SGD.</li>
+      </ul>
+
+      <h3>Cons:</h3>
+      <ul>
+        <li>Adam might converge to a suboptimal solution in some cases, especially for non-convex problems.</li>
+        <li>Requires more memory than SGD or Mini-batch gradient descent due to the storage of momentum and variance terms.</li>
+      </ul>
+
+      <h3>Usage:</h3>
+      <p>Adam is widely used in training deep neural networks, especially when the dataset is large and the model is complex. It often outperforms SGD in practice due to its adaptive learning rate and ability to handle sparse gradients effectively.</p>
+
+      <hr>
+
+      <h2>Conclusion</h2>
+      <p>The choice of gradient descent variant depends on the specific problem at hand and the model being trained. Stochastic Gradient Descent is simple and effective for large datasets, while Mini-batch Gradient Descent strikes a balance between speed and stability. Adam is the go-to optimizer for most deep learning tasks due to its adaptive nature and efficiency. By understanding the pros and cons of each variant, practitioners can choose the best approach for their training tasks.</p>
+    </div>
+  </body>
+</html>
+

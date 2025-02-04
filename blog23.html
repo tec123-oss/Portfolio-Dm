@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Frequent Pattern Mining: Apriori and FP-growth Algorithms</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        font-family: "Poppins", sans-serif;
+        box-sizing: border-box;
+      }
+
+      /* Black Screen Background */
+      body {
+        background: rgba(0, 0, 0, 1); /* Pure black background */
+        color: rgba(255, 255, 255, 1); /* Fully bright white text */
+      }
+
+      nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 20px;
+        background-color: rgba(0, 0, 0, 0.9);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      }
+
+      nav .logo {
+        width: 60px; /* Adjustable size */
+        height: 60px;
+        border-radius: 50%; /* Makes it round */
+        object-fit: cover;
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+        text-align: left; /* Aligns the list items to the left */
+        padding-left: 20px; /* Adds left padding for better spacing */
+      }
+
+      nav ul li {
+        margin: 0 10px;
+      }
+
+      nav ul li a {
+        color: red; /* Default color is red */
+        text-decoration: none;
+        font-size: 16px;
+        padding: 5px 10px;
+        transition: color 0.3s;
+      }
+
+      nav ul li a:hover {
+        color: white; /* Color changes to white on hover */
+      }
+
+      .image-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 20px auto;
+        width: 90%;
+        max-width: 1200px;
+      }
+
+      .image-container img {
+        max-width: 50%;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      }
+
+      .container.blog-content {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.9);
+        margin: 20px auto;
+        width: 90%;
+        max-width: 1200px;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.95);
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.8);
+      }
+
+      h1 {
+        background-image: url("apriori.png"); /* Use the image as background */
+        background-size: cover; /* Cover the entire area */
+        background-position: center; /* Center the image */
+        color: red; /* Default color is red */
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Add shadow for readability */
+        padding: 20px; /* Add padding for spacing */
+        border-radius: 10px; /* Rounded edges */
+        transition: color 0.3s ease-in-out;
+      }
+
+      h1:hover {
+        color: white; /* Color changes to white on hover */
+      }
+
+      h2, h3 {
+        color: red; /* Default color is red */
+        transition: color 0.3s ease-in-out;
+      }
+
+      h2:hover, h3:hover {
+        color: white; /* Color changes to white on hover */
+      }
+
+      .blog-content ul {
+        text-align: left; /* Align list items to the left */
+        padding-left: 20px; /* Add left padding for spacing */
+      }
+
+      .blog-content ul li {
+        margin-bottom: 10px; /* Add spacing between list items */
+      }
+
+      .blog-content p {
+        font-size: 18px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+        text-align: justify;
+        color: rgba(255, 255, 255, 0.95);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        background-color: rgba(0, 0, 0, 0.9);
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      }
+
+      th, td {
+        padding: 15px;
+        text-align: center;
+        color: white;
+        font-size: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      th {
+        background-color: rgba(255, 0, 0, 0.7); /* Red background for headers */
+        text-transform: uppercase;
+      }
+
+      tr:nth-child(even) {
+        background-color: rgba(255, 255, 255, 0.1); /* Light gray for even rows */
+      }
+
+      tr:nth-child(odd) {
+        background-color: rgba(255, 255, 255, 0.2); /* Darker gray for odd rows */
+      }
+
+      tr:hover {
+        background-color: rgba(255, 0, 0, 0.3); /* Hover effect with red background */
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        nav {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        nav ul {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .image-container img {
+          width: 100%; /* Full width for smaller screens */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <img src="3.png" class="logo" alt="Logo" />
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#portfolio">Portfolio</a></li>
+        <li><a href="index.html#blogs">Blogs</a></li>
+        <li><a href="index.html#footer">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="container blog-content">
+      <h1>Frequent Pattern Mining: Apriori and FP-growth Algorithms</h1>
+      <p>
+        Frequent pattern mining is a key step in data mining used to identify patterns or associations within large datasets. It is especially useful in market basket analysis, where it helps in identifying items that are frequently bought together. In this blog, we will explore two popular algorithms used for frequent pattern mining: **Apriori** and **FP-growth**.
+      </p>
+
+      <h2>What is Frequent Pattern Mining?</h2>
+      <p>
+        Frequent pattern mining involves discovering frequent patterns, associations, or correlations among a set of items in a transactional database. These patterns are valuable in various applications such as market basket analysis, web mining, and bioinformatics. The ultimate goal is to uncover hidden relationships within large datasets that may not be immediately obvious.
+      </p>
+
+      <h2>The Apriori Algorithm</h2>
+      <p>
+        The **Apriori Algorithm** is one of the earliest and most popular algorithms used for frequent pattern mining. It is based on the principle of "apriori," which states that "if an itemset is frequent, then all of its subsets must also be frequent."
+      </p>
+      <h3>Key Steps in Apriori:</h3>
+      <ul>
+        <li>
+          <strong>Generate Candidate Itemsets:</strong> The algorithm first generates candidate itemsets of length 1 (single items), then generates itemsets of length 2, and so on.
+        </li>
+        <li>
+          <strong>Calculate Support:</strong> For each candidate itemset, the algorithm calculates its support, which is the percentage of transactions in which the itemset appears.
+        </li>
+        <li>
+          <strong>Prune Infrequent Itemsets:</strong> If the support of an itemset is below the minimum threshold (min_support), it is pruned (i.e., discarded) from further consideration.
+        </li>
+        <li>
+          <strong>Repeat:</strong> The process is repeated for larger itemsets until no further frequent itemsets can be generated.
+        </li>
+      </ul>
+      <p>
+        The Apriori algorithm is efficient for small datasets but becomes computationally expensive for large datasets due to the generation of numerous candidate itemsets.
+      </p>
+
+      <h2>The FP-growth Algorithm</h2>
+      <p>
+        The **FP-growth Algorithm** (Frequent Pattern Growth) is another popular method for frequent pattern mining. It is an improvement over the Apriori algorithm and addresses its limitations by using a compact data structure called the **FP-tree** (Frequent Pattern tree).
+      </p>
+      <h3>Key Steps in FP-growth:</h3>
+      <ul>
+        <li>
+          <strong>Construct FP-tree:</strong> The algorithm first constructs an FP-tree, a compact representation of the dataset, where each node represents an item and its frequency.
+        </li>
+        <li>
+          <strong>Divide and Conquer:</strong> The FP-growth algorithm recursively divides the dataset into smaller subsets based on the frequent items in the tree and then mines the frequent patterns from each subset.
+        </li>
+        <li>
+          <strong>Mine Frequent Patterns:</strong> Frequent itemsets are extracted by following paths in the FP-tree and combining itemsets based on their frequency.
+        </li>
+      </ul>
+      <p>
+        The FP-growth algorithm is much faster than Apriori because it avoids generating candidate itemsets, reducing computational costs.
+      </p>
+
+      <h2>Comparison Between Apriori and FP-growth</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Apriori</th>
+            <th>FP-growth</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Candidate Generation</td>
+            <td>Generates candidate itemsets</td>
+            <td>No candidate generation, uses FP-tree</td>
+          </tr>
+          <tr>
+            <td>Efficiency</td>
+            <td>Slower for large datasets</td>
+            <td>Faster for large datasets</td>
+          </tr>
+          <tr>
+            <td>Memory Usage</td>
+            <td>Requires more memory for candidate itemsets</td>
+            <td>Uses compressed FP-tree structure</td>
+          </tr>
+          <tr>
+            <td>Computational Complexity</td>
+            <td>High due to candidate generation</td>
+            <td>Lower due to compact tree structure</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Conclusion</h2>
+      <p>
+        Frequent pattern mining is an essential technique in data mining for discovering associations and patterns in transactional databases. While the Apriori algorithm is simple and intuitive, the FP-growth algorithm provides a more efficient solution for mining frequent patterns, especially in large datasets. Both algorithms have their strengths and are applicable in different scenarios, depending on the dataset size and the computational resources available.
+      </p>
+    </div>
+  </body>
+</html>

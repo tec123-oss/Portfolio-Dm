@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Convolutional Neural Networks (CNNs)</title>
+    <style>
+    * {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+}
+
+/* Black Screen Background */
+body {
+  background: rgba(0, 0, 0, 1); /* Pure black background */
+  color: rgba(255, 255, 255, 1); /* Fully bright white text */
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: rgba(0, 0, 0, 0.9);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+nav .logo {
+  width: 60px; /* Adjustable size */
+  height: 60px;
+  border-radius: 50%; /* Makes it round */
+  object-fit: cover;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  text-align: left; /* Aligns the list items to the left */
+  padding-left: 20px; /* Adds left padding for better spacing */
+}
+
+nav ul li {
+  margin: 0 10px;
+}
+
+nav ul li a {
+  color: red; /* Default color is red */
+  text-decoration: none;
+  font-size: 16px;
+  padding: 5px 10px;
+  transition: color 0.3s;
+}
+
+nav ul li a:hover {
+  color: white; /* Color changes to white on hover */
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto;
+  width: 90%;
+  max-width: 1200px;
+}
+
+.image-container img {
+  max-width: 50%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.container.blog-content {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 20px auto;
+  width: 90%;
+  max-width: 1200px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.95);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.8);
+}
+
+h1 {
+  background-image: url("cnn.png"); /* Use the image as background */
+  background-size: cover; /* Cover the entire area */
+  background-position: center; /* Center the image */
+  color: red; /* Default color is red */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Add shadow for readability */
+  padding: 20px; /* Add padding for spacing */
+  border-radius: 10px; /* Rounded edges */
+  transition: color 0.3s ease-in-out;
+}
+
+h1:hover {
+  color: white; /* Color changes to white on hover */
+}
+
+h2, h3 {
+  color: red; /* Default color is red */
+  transition: color 0.3s ease-in-out;
+}
+
+h2:hover, h3:hover {
+  color: white; /* Color changes to white on hover */
+}
+
+.blog-content ul {
+  text-align: left; /* Align list items to the left */
+  padding-left: 20px; /* Add left padding for spacing */
+}
+
+.blog-content ul li {
+  margin-bottom: 10px; /* Add spacing between list items */
+}
+
+.blog-content p {
+  font-size: 18px;
+  line-height: 1.8;
+  margin-bottom: 20px;
+  text-align: justify;
+  color: rgba(255, 255, 255, 0.95);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+th, td {
+  padding: 15px;
+  text-align: center;
+  color: white;
+  font-size: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+th {
+  background-color: rgba(255, 0, 0, 0.7); /* Red background for headers */
+  text-transform: uppercase;
+}
+
+tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.1); /* Light gray for even rows */
+}
+
+tr:nth-child(odd) {
+  background-color: rgba(255, 255, 255, 0.2); /* Darker gray for odd rows */
+}
+
+tr:hover {
+  background-color: rgba(255, 0, 0, 0.3); /* Hover effect with red background */
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+
+  nav ul {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .image-container img {
+    width: 100%; /* Full width for smaller screens */
+  }
+}
+
+    </style>
+  </head>
+  <body>
+    <nav>
+      <img src="3.png" class="logo" alt="Logo" />
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#portfolio">Portfolio</a></li>
+        <li><a href="index.html#blogs">Blogs</a></li>
+        <li><a href="index.html#footer">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="container blog-content">
+      <h1>Convolutional Neural Networks (CNNs): Structure and Use in Image Processing</h1>
+      <p>
+        In the world of artificial intelligence and machine learning, <strong>Convolutional Neural Networks (CNNs)</strong> have revolutionized the way computers understand and process visual data. From <strong>facial recognition</strong> to <strong>self-driving cars</strong>, CNNs are at the heart of modern image processing and computer vision tasks. In this blog, we’ll dive into the structure of CNNs, how they work, and why they are so effective in image processing.
+      </p>
+
+      <p>
+        <strong>Convolutional Neural Networks (CNNs)</strong> are a class of deep learning models specifically designed to process grid-like data, such as images. Unlike traditional neural networks, CNNs leverage <strong>spatial hierarchies</strong> in data, making them highly efficient for tasks like <strong>image classification</strong>, <strong>object detection</strong>, and <strong>segmentation</strong>. The key idea behind CNNs is to automatically and adaptively learn <strong>spatial hierarchies</strong> of features from input images. This is achieved through a combination of <strong>convolutional layers</strong>, <strong>pooling layers</strong>, and <strong>fully connected layers</strong>.
+      </p>
+
+      <h2>Why CNNs Excel in Image Processing</h2>
+      <ul>
+        <li><strong>Local Feature Extraction</strong>: CNNs focus on small regions of an image at a time, allowing them to detect local patterns like edges, textures, and shapes.</li>
+        <li><strong>Parameter Sharing</strong>: Convolutional layers use shared weights, reducing the number of parameters and making the network computationally efficient.</li>
+        <li><strong>Hierarchical Learning</strong>: CNNs learn increasingly complex features as data passes through deeper layers (e.g., edges → textures → object parts → full objects).</li>
+        <li><strong>Translation Invariance</strong>: CNNs can recognize objects regardless of their position in the image, thanks to pooling operations.</li>
+      </ul>
+
+      <h2>Key Components of CNNs</h2>
+      <p>
+        A typical CNN consists of the following layers:
+        <ul>
+          <li><strong>Input Layer</strong>: Takes in raw image data, usually represented as a 3D tensor (height × width × channels).</li>
+          <li><strong>Convolutional Layer</strong>: Applies filters to extract features from the input image.</li>
+          <li><strong>Activation Layer</strong>: Uses functions like <strong>ReLU</strong> to introduce non-linearity and improve learning.
+            <code>ReLU(x) = max(0, x)</code>
+          </li>
+          <li><strong>Pooling Layer</strong>: Reduces the spatial dimensions of feature maps, enhancing computational efficiency.</li>
+          <li><strong>Fully Connected Layer</strong>: Combines features to make predictions.</li>
+          <li><strong>Output Layer</strong>: Produces the final predictions, often using a <strong>softmax</strong> function for classification.</li>
+        </ul>
+      </p>
+
+      <h2>Example Workflow</h2>
+      <p>
+        Let’s walk through an example of how a CNN processes an image:
+      </p>
+      <ul>
+        <li><strong>Input</strong>: A 32x32 RGB image (3 channels).</li>
+        <li><strong>Convolutional Layer</strong>: Apply filters to produce feature maps.</li>
+        <li><strong>ReLU Activation</strong>: Introduce non-linearity.</li>
+        <li><strong>Max Pooling</strong>: Downsample feature maps to reduce dimensions.</li>
+        <li><strong>Fully Connected Layer</strong>: Flatten and connect features to output predictions.</li>
+        <li><strong>Output</strong>: Classify the image into categories using softmax.</li>
+      </ul>
+
+      <h2>Applications of CNNs</h2>
+      <ul>
+        <li><strong>Image Classification</strong>: Assigning labels to images (e.g., cat vs. dog).</li>
+        <li><strong>Object Detection</strong>: Identifying and localizing objects within images.</li>
+        <li><strong>Semantic Segmentation</strong>: Labeling each pixel in an image.</li>
+        <li><strong>Face Recognition</strong>: Identifying individuals based on facial features.</li>
+        <li><strong>Medical Imaging</strong>: Detecting diseases from X-rays or MRIs.</li>
+        <li><strong>Self-Driving Cars</strong>: Recognizing pedestrians, traffic signs, and obstacles.</li>
+      </ul>
+
+      <h2>Advantages of CNNs</h2>
+      <ul>
+        <li><strong>Automatic Feature Extraction</strong>: Learns features directly from data.</li>
+        <li><strong>High Accuracy</strong>: Excels in image processing tasks.</li>
+        <li><strong>Efficiency</strong>: Reduces computational complexity.</li>
+      </ul>
+
+      <h2>Challenges of CNNs</h2>
+      <ul>
+        <li><strong>Large Datasets</strong>: Requires substantial labeled data for training.</li>
+        <li><strong>Computational Resources</strong>: Needs powerful hardware (GPUs/TPUs).</li>
+        <li><strong>Overfitting</strong>: Requires regularization to prevent overfitting.</li>
+      </ul>
+
+      <p>
+        CNNs have transformed image processing, enabling remarkable advances in AI. As research continues, their role in fields like healthcare and autonomous systems will only grow. Understanding CNNs is essential for anyone in AI and computer vision.
+      </p>
+    </div>
+  </body>
+</html>

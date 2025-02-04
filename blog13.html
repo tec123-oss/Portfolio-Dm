@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recurrent Neural Networks (RNNs) and LSTMs</title>
+    <style>
+    * {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+}
+
+/* Black Screen Background */
+body {
+  background: rgba(0, 0, 0, 1); /* Pure black background */
+  color: rgba(255, 255, 255, 1); /* Fully bright white text */
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: rgba(0, 0, 0, 0.9);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+nav .logo {
+  width: 60px; /* Adjustable size */
+  height: 60px;
+  border-radius: 50%; /* Makes it round */
+  object-fit: cover;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  text-align: left; /* Aligns the list items to the left */
+  padding-left: 20px; /* Adds left padding for better spacing */
+}
+
+nav ul li {
+  margin: 0 10px;
+}
+
+nav ul li a {
+  color: red; /* Default color is red */
+  text-decoration: none;
+  font-size: 16px;
+  padding: 5px 10px;
+  transition: color 0.3s;
+}
+
+nav ul li a:hover {
+  color: white; /* Color changes to white on hover */
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto;
+  width: 90%;
+  max-width: 1200px;
+}
+
+.image-container img {
+  max-width: 50%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.container.blog-content {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 20px auto;
+  width: 90%;
+  max-width: 1200px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.95);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.8);
+}
+
+h1 {
+  background-image: url("rnn.png"); /* Use the image as background */
+  background-size: cover; /* Cover the entire area */
+  background-position: center; /* Center the image */
+  color: red; /* Default color is red */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Add shadow for readability */
+  padding: 20px; /* Add padding for spacing */
+  border-radius: 10px; /* Rounded edges */
+  transition: color 0.3s ease-in-out;
+}
+
+h1:hover {
+  color: white; /* Color changes to white on hover */
+}
+
+h2, h3 {
+  color: red; /* Default color is red */
+  transition: color 0.3s ease-in-out;
+}
+
+h2:hover, h3:hover {
+  color: white; /* Color changes to white on hover */
+}
+
+.blog-content ul {
+  text-align: left; /* Align list items to the left */
+  padding-left: 20px; /* Add left padding for spacing */
+}
+
+.blog-content ul li {
+  margin-bottom: 10px; /* Add spacing between list items */
+}
+
+.blog-content p {
+  font-size: 18px;
+  line-height: 1.8;
+  margin-bottom: 20px;
+  text-align: justify;
+  color: rgba(255, 255, 255, 0.95);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+th, td {
+  padding: 15px;
+  text-align: center;
+  color: white;
+  font-size: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+th {
+  background-color: rgba(255, 0, 0, 0.7); /* Red background for headers */
+  text-transform: uppercase;
+}
+
+tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.1); /* Light gray for even rows */
+}
+
+tr:nth-child(odd) {
+  background-color: rgba(255, 255, 255, 0.2); /* Darker gray for odd rows */
+}
+
+tr:hover {
+  background-color: rgba(255, 0, 0, 0.3); /* Hover effect with red background */
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+
+  nav ul {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .image-container img {
+    width: 100%; /* Full width for smaller screens */
+  }
+}
+
+    </style>
+  </head>
+  <body>
+    <nav>
+      <img src="3.png" class="logo" alt="Logo" />
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#portfolio">Portfolio</a></li>
+        <li><a href="index.html#blogs">Blogs</a></li>
+        <li><a href="index.html#footer">Contact</a></li>
+      </ul>
+    </nav>
+
+    </div>
+    <div class="container blog-content">
+      <h1>Recurrent Neural Networks (RNNs) and LSTMs: Time-Series and Sequence Modeling</h1>
+  
+      <p>
+        In the realm of artificial intelligence and machine learning, <strong>Recurrent Neural Networks (RNNs)</strong> and their advanced variant, <strong>Long Short-Term Memory (LSTM)</strong> networks, have become indispensable tools for modeling sequential data.
+      </p>
+  
+      <h2>What Are Recurrent Neural Networks (RNNs)?</h2>
+      <p>
+        Recurrent Neural Networks (RNNs) are a class of neural networks specifically designed to process sequential data. They are particularly well-suited for tasks like:
+      </p>
+      <ul>
+        <li>Time-series forecasting (e.g., stock prices, weather data).</li>
+        <li>Natural language processing (e.g., text generation, machine translation).</li>
+        <li>Speech recognition.</li>
+        <li>Music generation.</li>
+      </ul>
+  
+      <h2>How Do RNNs Work?</h2>
+      <p>
+        An RNN processes sequential data one step at a time. At each step, it takes the current input and the hidden state from the previous step to compute the output and update the hidden state.
+      </p>
+  
+      <h3>Challenges with Basic RNNs</h3>
+      <ul>
+        <li><strong>Vanishing Gradient Problem</strong>: Makes it difficult to learn long-term dependencies.</li>
+        <li><strong>Exploding Gradient Problem</strong>: Can cause instability during training.</li>
+      </ul>
+  
+      <h2>Long Short-Term Memory (LSTM) Networks</h2>
+      <p>
+        LSTMs address the limitations of RNNs by introducing gates to control the flow of information. Key components include:
+      </p>
+      <ul>
+        <li><strong>Forget Gate</strong>: Decides what information to discard.</li>
+        <li><strong>Input Gate</strong>: Decides what new information to store.</li>
+        <li><strong>Output Gate</strong>: Decides what information to output.</li>
+      </ul>
+  
+      <h2>Applications of RNNs and LSTMs</h2>
+      <ul>
+        <li>Time-Series Forecasting: Predicting stock prices, weather, energy consumption.</li>
+        <li>Natural Language Processing: Text generation, machine translation, sentiment analysis.</li>
+        <li>Speech Recognition: Used in voice assistants and transcription services.</li>
+        <li>Music and Video Generation: Generating sequential data like music or video frames.</li>
+      </ul>
+  
+      <h2>Example: Time-Series Forecasting with LSTMs</h2>
+      <p>
+        Steps to forecast time-series data using LSTMs:
+      </p>
+      <ul>
+        <li>Prepare and preprocess the data.</li>
+        <li>Define the LSTM model architecture.</li>
+        <li>Train the model on historical data.</li>
+        <li>Evaluate the model's performance using metrics like MSE or MAE.</li>
+      </ul>
+  
+      <h2>Conclusion</h2>
+      <p>
+        RNNs and LSTMs are powerful tools for modeling sequential data. While RNNs are suitable for simple tasks, LSTMs excel at handling complex sequences with long-term dependencies.
+      </p>
+    </div>
+  </body>
+  
+</div>
+  </body>
+</html>

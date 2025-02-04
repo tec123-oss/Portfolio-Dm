@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Backpropagation: How Neural Networks Learn</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        font-family: "Poppins", sans-serif;
+        box-sizing: border-box;
+      }
+
+      /* Black Screen Background */
+      body {
+        background: rgba(0, 0, 0, 1); /* Pure black background */
+        color: rgba(255, 255, 255, 1); /* Fully bright white text */
+      }
+
+      nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 20px;
+        background-color: rgba(0, 0, 0, 0.9);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      }
+
+      nav .logo {
+        width: 60px; /* Adjustable size */
+        height: 60px;
+        border-radius: 50%; /* Makes it round */
+        object-fit: cover;
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+        text-align: left; /* Aligns the list items to the left */
+        padding-left: 20px; /* Adds left padding for better spacing */
+      }
+
+      nav ul li {
+        margin: 0 10px;
+      }
+
+      nav ul li a {
+        color: red; /* Default color is red */
+        text-decoration: none;
+        font-size: 16px;
+        padding: 5px 10px;
+        transition: color 0.3s;
+      }
+
+      nav ul li a:hover {
+        color: white; /* Color changes to white on hover */
+      }
+
+      .container.blog-content {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.9);
+        margin: 20px auto;
+        width: 90%;
+        max-width: 1200px;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.95);
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.8);
+      }
+
+      h1 {
+        background-image: url("backprop.png"); /* Use the image as background */
+        background-size: cover; /* Cover the entire area */
+        background-position: center; /* Center the image */
+        color: red; /* Default color is red */
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Add shadow for readability */
+        padding: 20px; /* Add padding for spacing */
+        border-radius: 10px; /* Rounded edges */
+        transition: color 0.3s ease-in-out;
+      }
+
+      h1:hover {
+        color: white; /* Color changes to white on hover */
+      }
+
+      h2, h3 {
+        color: red; /* Default color is red */
+        transition: color 0.3s ease-in-out;
+      }
+
+      h2:hover, h3:hover {
+        color: white; /* Color changes to white on hover */
+      }
+
+      .blog-content ul {
+        text-align: left; /* Align list items to the left */
+        padding-left: 20px; /* Add left padding for spacing */
+      }
+
+      .blog-content ul li {
+        margin-bottom: 10px; /* Add spacing between list items */
+      }
+
+      .blog-content p {
+        font-size: 18px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+        text-align: justify;
+        color: rgba(255, 255, 255, 0.95);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        background-color: rgba(0, 0, 0, 0.9);
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      }
+
+      th, td {
+        padding: 15px;
+        text-align: center;
+        color: white;
+        font-size: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      th {
+        background-color: rgba(255, 0, 0, 0.7); /* Red background for headers */
+        text-transform: uppercase;
+      }
+
+      tr:nth-child(even) {
+        background-color: rgba(255, 255, 255, 0.1); /* Light gray for even rows */
+      }
+
+      tr:nth-child(odd) {
+        background-color: rgba(255, 255, 255, 0.2); /* Darker gray for odd rows */
+      }
+
+      tr:hover {
+        background-color: rgba(255, 0, 0, 0.3); /* Hover effect with red background */
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        nav {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        nav ul {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <img src="3.png" class="logo" alt="Logo" />
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#portfolio">Portfolio</a></li>
+        <li><a href="index.html#blogs">Blogs</a></li>
+        <li><a href="index.html#footer">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="container blog-content">
+      <h1>Backpropagation: How Neural Networks Learn</h1>
+      <p>
+        Neural networks have revolutionized the field of artificial intelligence by enabling machines to learn complex patterns from data. One of the core techniques that allow neural networks to learn is called **backpropagation**. In this blog, we will explore what backpropagation is, how it works, and why it is so crucial in the training of neural networks.
+      </p>
+
+      <h2>What is Backpropagation?</h2>
+      <p>
+        Backpropagation, short for **backward propagation of errors**, is a supervised learning algorithm used for training artificial neural networks. It is a method for updating the weights of the network in order to minimize the error between the predicted and actual output.
+      </p>
+      <p>
+        The goal of backpropagation is to adjust the weights in a way that the neural network produces more accurate predictions. This process involves calculating the gradient of the loss function with respect to the weights of the network and using it to update the weights in the opposite direction (thus the term "backpropagation").
+      </p>
+
+      <h2>How Does Backpropagation Work?</h2>
+      <p>
+        Backpropagation operates in two main phases: the **forward pass** and the **backward pass**. Let's break down the process:
+      </p>
+      <h3>1. Forward Pass</h3>
+      <ul>
+        <li>
+          The forward pass involves passing the input data through the network layer by layer, applying activation functions at each node, and computing the final output.
+        </li>
+        <li>
+          The predicted output is compared with the actual target output, and the error (loss) is calculated using a loss function (e.g., Mean Squared Error, Cross-Entropy).
+        </li>
+      </ul>
+
+      <h3>2. Backward Pass</h3>
+      <ul>
+        <li>
+          The error is propagated backward through the network. This involves computing the gradient of the loss function with respect to each weight in the network.
+        </li>
+        <li>
+          The gradients are calculated using the **chain rule of calculus**, which allows the error to be propagated backward from the output layer to the input layer.
+        </li>
+        <li>
+          Once the gradients are computed, the weights are updated using an optimization technique, typically **Stochastic Gradient Descent (SGD)** or more advanced methods like Adam.
+        </li>
+      </ul>
+
+      <h2>The Chain Rule of Calculus in Backpropagation</h2>
+      <p>
+        The core of backpropagation is the **chain rule of calculus**, which allows the algorithm to calculate how the loss function changes with respect to each weight in the network. The chain rule is applied at each layer of the network to compute the gradients.
+      </p>
+      <p>
+        Mathematically, the gradient of the loss with respect to a weight can be expressed as:
+      </p>
+      <pre>
+        ∂L/∂w = ∂L/∂z * ∂z/∂w
+      </pre>
+      <p>
+        Here, <strong>∂L/∂w</strong> is the gradient of the loss function with respect to the weight <strong>w</strong>, <strong>∂L/∂z</strong> is the gradient of the loss with respect to the output of the neuron, and <strong>∂z/∂w</strong> is the gradient of the output with respect to the weight.
+      </p>
+
+      <h2>Why is Backpropagation Important?</h2>
+      <p>
+        Backpropagation allows neural networks to effectively learn complex patterns in data. It is important because:
+      </p>
+      <ul>
+        <li>
+          It helps the network to improve its accuracy over time by adjusting weights based on errors.
+        </li>
+        <li>
+          It makes it possible to train deep neural networks (with many layers), which are crucial for tasks like image recognition, natural language processing, and more.
+        </li>
+        <li>
+          The optimization process (e.g., using gradient descent) ensures that the network converges to an optimal set of weights.
+        </li>
+      </ul>
+
+      <h2>Challenges with Backpropagation</h2>
+      <ul>
+        <li>
+          **Vanishing Gradient Problem**: In deep networks, gradients can become very small, making it difficult for weights to change significantly.
+        </li>
+        <li>
+          **Exploding Gradients**: Conversely, gradients can become very large, leading to unstable updates.
+        </li>
+        <li>
+          **Local Minima**: The loss function may have local minima that prevent the network from finding the global minimum.
+        </li>
+      </ul>
+
+      <h2>Conclusion</h2>
+      <p>
+        Backpropagation is a foundational algorithm in neural networks that enables machines to learn from data by adjusting weights in a way that reduces the prediction error. By understanding how the forward and backward passes work together, we can see how backpropagation helps neural networks become more accurate over time. Despite challenges like the vanishing gradient problem, backpropagation remains one of the most powerful tools for training neural networks.
+      </p>
+    </div>
+  </body>
+</html>

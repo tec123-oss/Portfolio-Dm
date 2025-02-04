@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All blogs</title>
+    <style>
+.blog-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two blogs per row */
+    gap: 20px; /* Space between blog items */
+    justify-content: center;
+    padding: 20px;
+}
+
+.blog {
+    width: 100%; /* Each blog takes full column width */
+    max-width: 300px; /* Limit maximum width */
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.blog:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.blog img {
+    width: 100%;
+    height: 180px; /* Adjusted for better spacing */
+    object-fit: cover;
+}
+
+.blog .layer {
+    padding: 15px;
+    background-color: red;
+    color: white;
+    text-align: left;
+}
+
+.blog .layer h3,
+.blog .layer p {
+    margin: 5px 0;
+}
+
+
+
+</style>    
+</head>
+<body>
+
+<!-- Blogs Section -->
+
+<div id="blogs">
+    <a href="blog1.html">
+        <div class="blog">
+            <img src="blog1.png" alt="Blog 1">
+            <div class="layer">
+                <h3>Online vs. Bash Learning</h3>
+                <p>Understand the differences between online and command-line learning approaches.</p>
+            </div>
+        </div>
+    </a>
+    <a href="blog2.html">
+        <div class="blog">
+            <img src="supervised-unsupervised.png" alt="Blog 2">
+            <div class="layer">
+                <h3>Supervised vs. Unsupervised Learning</h3>
+                <p>Key differences and applications.</p>
+            </div>
+        </div>
+    </a>
+    <a href="blog3.html">
+        <div class="blog">
+            <img src="feature.png" alt="Blog 3">
+            <div class="layer">
+                <h3>Feature Engineering: Importance of selecting and transforming variables.</h3>
+                <p>Importance of selecting and transforming variables.</p>
+            </div>
+        </div>
+    </a>
+    <a href="blog4.html">
+        <div class="blog">
+            <img src="dt.png" alt="Blog 4">
+            <div class="layer">
+                <h3>Decision Trees and Random Forests</h3>
+                <p>Concepts and real-world applications.</p>
+            </div>
+        </div>
+    </a>
+    <a href="blog5.html">
+        <div class="blog">
+            <img src="svm.png" alt="Blog 5">
+            <div class="layer">
+                <h3>Support Vector Machines (SVM)</h3>
+                <p>Theory and implementation.</p>
+            </div>
+        </div>
+    </a>
+    <a href="blog6.html">
+        <div class="blog">
+            <img src="clusters.png" alt="Blog 6">
+            <div class="layer">
+                <h3>Clustering Algorithms</h3>
+                <p>k-means, DBSCAN, and hierarchical clustering.</p>
+            </div>
+        </div>
+    </a>
+    <a href="blog7.html">
+        <div class="blog">
+            <img src="pca.png" alt="Blog 7">
+            <div class="layer">
+                <h3>Dimensionality Reduction</h3>
+                <p>PCA, t-SNE, and UMAP for Visualization and Analysis</p>
+            </div>
+        </div>
+    </a>
+    <a href="blog8.html">
+        <div class="blog">
+            <img src="rein.png" alt="Blog 8">
+            <div class="layer">
+                <h3>Reinforcement Learning</h3>
+                <p>Using AI to classify images and objects within them.</p>
+            </div>
+        </div>
+    </a>
+    <a href="blog9.html">
+        <div class="blog">
+            <img src="hyper.png" alt="Blog 9">
+            <div class="layer">
+                <h3>Hyperparameter Optimization</h3>
+                <p> Techniques like Grid Search, Random Search, and Bayesian Optimization.</p>
+            </div>
+        </div>
+    </a>
+    <a href="blog10.html">
+        <div class="blog">
+            <img src="ensemble.png" alt="Blog 10">
+            <div class="layer">
+                <h3>Ensemble Methods </h3>
+                <p>Bagging, boosting, and stacking for performance improvement.</p>
+            </div>
+        </div>
+    </a>
+    <a href="blog11.html">
+        <div class="blog">
+            <img src="over.png" alt="Blog 11">
+            <div class="layer">
+                <h3>Overfitting and Regularization</h3>
+                <p>Techniques like dropout, L1/L2 regularization.</p>
+            </div>
+        </div>
+    </a>
+    <a href="blog12.html">
+        <div class="blog">
+            <img src="cnn.png" alt="Blog 12">
+            <div class="layer">
+                <h3>Convolutional Neural Networks (CNNs)</h3>
+                <p>Structure and use in image processing</p>
+            </div>
+        </div>
+    </a>
+    <a href="blog13.html">
+        <div class="blog">
+            <img src="rnn.png" alt="Blog 13">
+            <div class="layer">
+                <h3>Recurrent Neural Networks (RNNs) and LSTMs</h3>
+                <p>Time-series and sequence modeling</p>
+            </div>
+        </div>
+    </a>
+    <a href="blog14.html">
+        <div class="blog">
+            <img src="trans.png" alt="Blog 14">
+            <div class="layer">
+                <h3>Transformer Models</h3>
+                <p>BERT, GPT, and their role in NLP</p>
+            </div>
+        </div>
+    </a>
+    <a href="blog15.html">
+        <div class="blog">
+            <img src="gan.png" alt="Blog 15">
+            <div class="layer">
+                <h3>GANs (Generative Adversarial Networks)</h3>
+                <p>Generating realistic synthetic data</p>
+            </div>
+        </div>
+    </a>
+    <a href="blog16.html">
+        <div class="blog">
+            <img src="auto.png" alt="Blog 16">
+            <div class="layer">
+                <h3>Autoencoders</h3>
+                <p>Dimensionality reduction and anomaly detection</p>
+            </div>
+        </div>
+    </a>
+    <a href="blog17.html">
+        <div class="blog">
+            <img src="attention.png" alt="Blog 17">
+            <div class="layer">
+                <h3>Attention Mechanisms</h3>
+                <p>How attention improves model performance in sequences</p>
+            </div>
+        </div>
+    </a>
+    <a href="blog18.html">
+        <div class="blog">
+            <img src="rag.png" alt="Blog 18">
+            <div class="layer">
+                <h3>Exploring RAG (Relational Algebra Graph)</h3>
+                <p> A Powerful Tool for Data Querying and Analysis</p>
+            </div>
+        </div>
+    </a>
+    <a href="blog19.html">
+        <div class="blog">
+            <img src="anomly.png" alt="Blog 19">
+            <div class="layer">
+                <h3>Anomaly Detection</h3>
+                <p>Techniques to identify outliers in data</p>
+            </div>
+        </div>
+    </a>
+    <a href="blog20.html">
+        <div class="blog">
+            <img src="acti.png" alt="Blog 20">
+            <div class="layer">
+                <h3>Activation Functions</h3>
+                <p>Sigmoid, ReLU, Tanh, and their roles</p>
+            </div>
+        </div>
+    </a>
+    <a href="blog21.html">
+        <div class="blog">
+            <img src="grad-algo.png" alt="Blog 21">
+            <div class="layer">
+                <h3>Gradient Descent Variants</h3>
+                <p> Stochastic, mini-batch, and Adam optimizers</p>
+            </div>
+        </div>
+    </a>
+    <a href="blog22.html">
+        <div class="blog">
+            <img src="grad.png" alt="Blog 22">
+            <div class="layer">
+                <h3> Weight Initialization</h3>
+                <p> Techniques to prevent vanishing/exploding gradients.</p>
+            </div>
+        </div>
+    </a>
+    <a href="blog23.html">
+        <div class="blog">
+            <img src="apriori.png" alt="Blog 23">
+            <div class="layer">
+                <h3> Frequent Pattern Mining</h3>
+                <p>Apriori and FP-growth algorithms.</p>
+            </div>
+        </div>
+    </a>
+    <a href="blog24.html">
+        <div class="blog">
+            <img src="backprop.png" alt="Blog 24">
+            <div class="layer">
+                <h3>Backpropagation</h3>
+                <p> How neural networks learn</p>
+            </div>
+        </div>
+    </a>
+</div>
+</html>

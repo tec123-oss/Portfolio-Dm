@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Autoencoders</title>
+    <style>
+    * {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+}
+
+/* Black Screen Background */
+body {
+  background: rgba(0, 0, 0, 1); /* Pure black background */
+  color: rgba(255, 255, 255, 1); /* Fully bright white text */
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: rgba(0, 0, 0, 0.9);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+nav .logo {
+  width: 60px; /* Adjustable size */
+  height: 60px;
+  border-radius: 50%; /* Makes it round */
+  object-fit: cover;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  text-align: left; /* Aligns the list items to the left */
+  padding-left: 20px; /* Adds left padding for better spacing */
+}
+
+nav ul li {
+  margin: 0 10px;
+}
+
+nav ul li a {
+  color: red; /* Default color is red */
+  text-decoration: none;
+  font-size: 16px;
+  padding: 5px 10px;
+  transition: color 0.3s;
+}
+
+nav ul li a:hover {
+  color: white; /* Color changes to white on hover */
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto;
+  width: 90%;
+  max-width: 1200px;
+}
+
+.image-container img {
+  max-width: 50%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.container.blog-content {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 20px auto;
+  width: 90%;
+  max-width: 1200px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.95);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.8);
+}
+
+h1 {
+  background-image: url("auto.png"); /* Use the image as background */
+  background-size: cover; /* Cover the entire area */
+  background-position: center; /* Center the image */
+  color: red; /* Default color is red */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Add shadow for readability */
+  padding: 20px; /* Add padding for spacing */
+  border-radius: 10px; /* Rounded edges */
+  transition: color 0.3s ease-in-out;
+}
+
+h1:hover {
+  color: white; /* Color changes to white on hover */
+}
+
+h2, h3 {
+  color: red; /* Default color is red */
+  transition: color 0.3s ease-in-out;
+}
+
+h2:hover, h3:hover {
+  color: white; /* Color changes to white on hover */
+}
+
+.blog-content ul {
+  text-align: left; /* Align list items to the left */
+  padding-left: 20px; /* Add left padding for spacing */
+}
+
+.blog-content ul li {
+  margin-bottom: 10px; /* Add spacing between list items */
+}
+
+.blog-content p {
+  font-size: 18px;
+  line-height: 1.8;
+  margin-bottom: 20px;
+  text-align: justify;
+  color: rgba(255, 255, 255, 0.95);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+th, td {
+  padding: 15px;
+  text-align: center;
+  color: white;
+  font-size: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+th {
+  background-color: rgba(255, 0, 0, 0.7); /* Red background for headers */
+  text-transform: uppercase;
+}
+
+tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.1); /* Light gray for even rows */
+}
+
+tr:nth-child(odd) {
+  background-color: rgba(255, 255, 255, 0.2); /* Darker gray for odd rows */
+}
+
+tr:hover {
+  background-color: rgba(255, 0, 0, 0.3); /* Hover effect with red background */
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+
+  nav ul {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .image-container img {
+    width: 100%; /* Full width for smaller screens */
+  }
+}
+
+    </style>
+  </head>
+  <body>
+    <nav>
+      <img src="3.png" class="logo" alt="Logo" />
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#portfolio">Portfolio</a></li>
+        <li><a href="index.html#blogs">Blogs</a></li>
+        <li><a href="index.html#footer">Contact</a></li>
+      </ul>
+    </nav>
+  
+    <div class="container blog-content">
+      <h1>Autoencoders: Dimensionality Reduction and Anomaly Detection</h1>
+  
+      <p>
+        Autoencoders are a class of artificial neural networks designed to learn efficient representations of data. By encoding input data into a lower-dimensional space and reconstructing it back, autoencoders serve as powerful tools for tasks like dimensionality reduction and anomaly detection. Let’s dive into the details of how they work and their practical applications.
+      </p>
+  
+      <h2>What is an Autoencoder?</h2>
+      <p>An autoencoder is an unsupervised learning model that consists of two main components:</p>
+      <ul>
+        <li><strong>Encoder:</strong> Compresses the input into a latent-space representation, reducing its dimensionality.</li>
+        <li><strong>Decoder:</strong> Reconstructs the input data from the compressed representation.</li>
+      </ul>
+      <p>The goal of an autoencoder is to minimize the difference between the input and its reconstruction, often measured using a loss function like Mean Squared Error (MSE).</p>
+  
+      <h2>How Autoencoders Work</h2>
+      <p>Autoencoders learn by training on input data:</p>
+      <ul>
+        <li><strong>Encoding:</strong> The input is mapped to a lower-dimensional representation.</li>
+        <li><strong>Decoding:</strong> The decoder reconstructs the data from the encoded representation.</li>
+        <li><strong>Optimization:</strong> The model minimizes reconstruction error.</li>
+      </ul>
+  
+      <h2>Types of Autoencoders</h2>
+      <ul>
+        <li><strong>Vanilla Autoencoders:</strong> Basic structure used for simple tasks like dimensionality reduction and denoising.</li>
+        <li><strong>Denoising Autoencoders:</strong> Trained to reconstruct data from a corrupted version of the input.</li>
+        <li><strong>Sparse Autoencoders:</strong> Impose sparsity constraints for feature extraction.</li>
+        <li><strong>Variational Autoencoders (VAEs):</strong> Learn a probabilistic latent space and are used for data generation and anomaly detection.</li>
+      </ul>
+  
+      <h2>Dimensionality Reduction with Autoencoders</h2>
+      <p>Autoencoders provide a nonlinear approach to reducing the number of input features while preserving essential information. Unlike traditional methods like PCA, they excel in capturing complex relationships in data.</p>
+  
+      <h2>Anomaly Detection with Autoencoders</h2>
+      <p>Autoencoders are effective for anomaly detection by learning the structure of normal data. Data points with high reconstruction errors are flagged as anomalies.</p>
+  
+      <h2>Advantages and Limitations</h2>
+      <p><strong>Advantages:</strong></p>
+      <ul>
+        <li>Unsupervised learning without labeled data.</li>
+        <li>Flexibility to adapt to various tasks.</li>
+        <li>Nonlinearity captures complex data relationships.</li>
+      </ul>
+      <p><strong>Limitations:</strong></p>
+      <ul>
+        <li>Potential overfitting without regularization.</li>
+        <li>Dependency on large datasets.</li>
+      </ul>
+    </div>
+  </body>
+  

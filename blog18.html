@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RAG</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        font-family: "Poppins", sans-serif;
+        box-sizing: border-box;
+      }
+
+      /* Black Screen Background */
+      body {
+        background: rgba(0, 0, 0, 1); /* Pure black background */
+        color: rgba(255, 255, 255, 1); /* Fully bright white text */
+      }
+
+      nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 20px;
+        background-color: rgba(0, 0, 0, 0.9);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      }
+
+      nav .logo {
+        width: 60px; /* Adjustable size */
+        height: 60px;
+        border-radius: 50%; /* Makes it round */
+        object-fit: cover;
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+        text-align: left; /* Aligns the list items to the left */
+        padding-left: 20px; /* Adds left padding for better spacing */
+      }
+
+      nav ul li {
+        margin: 0 10px;
+      }
+
+      nav ul li a {
+        color: red; /* Default color is red */
+        text-decoration: none;
+        font-size: 16px;
+        padding: 5px 10px;
+        transition: color 0.3s;
+      }
+
+      nav ul li a:hover {
+        color: white; /* Color changes to white on hover */
+      }
+
+      .image-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 20px auto;
+        width: 90%;
+        max-width: 1200px;
+      }
+
+      .image-container img {
+        max-width: 50%;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      }
+
+      .container.blog-content {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.9);
+        margin: 20px auto;
+        width: 90%;
+        max-width: 1200px;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.95);
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.8);
+      }
+
+      h1 {
+        background-image: url("rag.png"); /* Use the image as background */
+        background-size: cover; /* Cover the entire area */
+        background-position: center; /* Center the image */
+        color: red; /* Default color is red */
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Add shadow for readability */
+        padding: 20px; /* Add padding for spacing */
+        border-radius: 10px; /* Rounded edges */
+        transition: color 0.3s ease-in-out;
+      }
+
+      h1:hover {
+        color: white; /* Color changes to white on hover */
+      }
+
+      h2,
+      h3 {
+        color: red; /* Default color is red */
+        transition: color 0.3s ease-in-out;
+      }
+
+      h2:hover,
+      h3:hover {
+        color: white; /* Color changes to white on hover */
+      }
+
+      .blog-content ul {
+        text-align: left; /* Align list items to the left */
+        padding-left: 20px; /* Add left padding for spacing */
+      }
+
+      .blog-content ul li {
+        margin-bottom: 10px; /* Add spacing between list items */
+      }
+
+      .blog-content p {
+        font-size: 18px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+        text-align: justify;
+        color: rgba(255, 255, 255, 0.95);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        background-color: rgba(0, 0, 0, 0.9);
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      }
+
+      th,
+      td {
+        padding: 15px;
+        text-align: center;
+        color: white;
+        font-size: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      th {
+        background-color: rgba(255, 0, 0, 0.7); /* Red background for headers */
+        text-transform: uppercase;
+      }
+
+      tr:nth-child(even) {
+        background-color: rgba(255, 255, 255, 0.1); /* Light gray for even rows */
+      }
+
+      tr:nth-child(odd) {
+        background-color: rgba(255, 255, 255, 0.2); /* Darker gray for odd rows */
+      }
+
+      tr:hover {
+        background-color: rgba(255, 0, 0, 0.3); /* Hover effect with red background */
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        nav {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        nav ul {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .image-container img {
+          width: 100%; /* Full width for smaller screens */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <img src="3.png" class="logo" alt="Logo" />
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#portfolio">Portfolio</a></li>
+        <li><a href="index.html#blogs">Blogs</a></li>
+        <li><a href="index.html#footer">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="container blog-content">
+      <p>
+        <h1>Exploring RAG (Relational Algebra Graph): A Powerful Tool for Data Querying and Analysis</h1>
+        <section>
+          <h2>Introduction</h2>
+          <p>
+            In the world of data science and database management, the ability to represent complex relationships between datasets and queries is critical. One such powerful concept in this realm is the <strong>Relational Algebra Graph (RAG)</strong>. RAG is an essential structure in querying and analyzing relational data, particularly when working with complex databases or graph-based systems. In this blog, we’ll take a deep dive into RAG, its significance, and how it’s used in modern data manipulation and querying.
+          </p>
+        </section>
+
+        <section>
+          <h2>What is a Relational Algebra Graph (RAG)?</h2>
+          <p>
+            A <strong>Relational Algebra Graph (RAG)</strong> is a graphical representation of relational algebra expressions, which are used to query relational databases. Relational algebra provides a formal system for manipulating relations (tables), and the graph form of these operations helps visualize and optimize queries.
+          </p>
+          <p>
+            The nodes in the graph represent <strong>relations</strong> (tables or datasets), and the edges represent <strong>operations</strong> (such as joins, selections, and projections) performed on those relations. RAGs are particularly useful for visualizing complex queries and can help optimize the query execution by breaking down the steps involved.
+          </p>
+        </section>
+
+        <section>
+          <h2>Core Concepts of Relational Algebra</h2>
+          <p>
+            To understand RAG, it’s important to first grasp the fundamental operations in relational algebra, which include:
+          </p>
+          <ul>
+            <li><strong>Selection (σ)</strong>: Filters rows from a relation based on a condition.</li>
+            <li><strong>Projection (π)</strong>: Extracts specific columns from a relation.</li>
+            <li><strong>Join (⨝)</strong>: Combines rows from two relations based on a common attribute.</li>
+            <li><strong>Union (∪)</strong>: Combines two relations with the same schema into one relation.</li>
+            <li><strong>Difference (−)</strong>: Returns the rows that are present in one relation but not in another.</li>
+            <li><strong>Cartesian Product (×)</strong>: Combines all rows from two relations.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Applications of RAG</h2>
+          <p>
+            RAG is highly valuable in situations where querying, optimization, and performance analysis are essential. By visualizing queries in graph form, it becomes easier to understand how operations are connected and to optimize them for faster query execution.
+          </p>
+        </section>
+
+        <section>
+          <h3>Example of RAG in Action</h3>
+          <p>
+            Suppose you have two tables in a database: <strong>Students</strong> and <strong>Courses</strong>. To find the list of students enrolled in a particular course, you would perform a <strong>join</strong> operation on the two tables. In a RAG, this would be represented by two nodes (tables) connected by an edge (the join operation).
+          </p>
+        </section>
+
+        <section>
+          <h3>Why Use RAG?</h3>
+          <p>
+            By leveraging RAG, developers and database administrators can better understand the relationships and operations within their queries, leading to more efficient data retrieval, enhanced optimization, and ultimately a smoother database management experience.
+          </p>
+        </section>
+
+        <section>
+          <h2>Conclusion</h2>
+          <p>
+            The Relational Algebra Graph (RAG) is an invaluable tool for anyone working with relational databases. It not only helps in the representation of relational queries but also enables better visualization, optimization, and performance tuning. Whether you’re working with small datasets or large, complex databases, RAG provides clarity and efficiency in data analysis and manipulation.
+          </p>
+        </section>
+      </p>
+    </div>
+  </body>
+</html>
